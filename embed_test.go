@@ -42,3 +42,18 @@ func Test_multy(t *testing.T) {
 	fmt.Println(string(c))
 
 }
+
+//go:embed files/*.txt
+var path embed.FS
+
+func Test_path(t *testing.T) {
+	dir, _ := path.ReadDir("files")
+	for _, entry := range dir {
+		if !entry.IsDir() {
+			fmt.Println(entry.Name())
+			content, _ := path.ReadFile("files/" + entry.Name())
+			fmt.Println("Content:", string(content))
+		}
+	}
+
+}
